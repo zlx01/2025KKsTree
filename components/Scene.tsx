@@ -7,6 +7,7 @@ import { Ornaments } from './Ornaments';
 import { Polaroids } from './Polaroids';
 import { Star } from './Star';
 import { Snow } from './Snow';
+import { DecorativeSpiral } from './DecorativeSpiral';
 import { TreeState, HandGestureState } from '../types';
 import * as THREE from 'three';
 
@@ -43,28 +44,33 @@ export const Scene: React.FC<SceneProps> = ({ treeState, gestureState, zoom }) =
       <PerspectiveCamera makeDefault position={[0, 4, 30]} fov={45} />
       <CameraRig gestureState={gestureState} zoom={zoom} />
       
-      <ambientLight intensity={0.2} color="#ffffff" />
+      <Environment preset="studio" background={false} />
+      
+      <ambientLight intensity={0.12} color="#ffffff" />
       <spotLight 
         position={[20, 30, 20]} 
         angle={0.3} 
         penumbra={1} 
-        intensity={2.5} 
+        intensity={2.2} 
         color="#fffaf0" 
         castShadow 
       />
       
-      <pointLight position={[-15, 10, -15]} intensity={1.5} color="#FFD700" />
-      <pointLight position={[15, 5, -15]} intensity={1} color="#ffffff" />
+      <pointLight position={[-15, 10, -15]} intensity={1.2} color="#FFD700" />
+      <pointLight position={[15, 5, -15]} intensity={0.8} color="#ffffff" />
 
       <Snow />
 
       <group position={[0, -2, 0]}>
         <Foliage treeState={treeState} />
         
-        {/* Adjusted counts for balanced density with slightly larger ornaments */}
-        <Ornaments treeState={treeState} type="box" count={150} />
-        <Ornaments treeState={treeState} type="ball" count={220} />
-        <Ornaments treeState={treeState} type="light" count={500} />
+        {/* Even more sparse ornaments for an ultra-premium feel */}
+        <Ornaments treeState={treeState} type="box" count={45} />
+        <Ornaments treeState={treeState} type="ball" count={85} />
+        <Ornaments treeState={treeState} type="light" count={180} />
+        
+        {/* Decorative Spiral Line - The core highlight */}
+        <DecorativeSpiral treeState={treeState} count={500} />
         
         <Star treeState={treeState} />
 
@@ -73,18 +79,16 @@ export const Scene: React.FC<SceneProps> = ({ treeState, gestureState, zoom }) =
         </Suspense>
       </group>
 
-      <Suspense fallback={null}>
-        <EffectComposer enableNormalPass={false} multisampling={0}>
-          <Bloom 
-            luminanceThreshold={0.9} 
-            mipmapBlur 
-            intensity={0.6} 
-            radius={0.25}
-          />
-          <Vignette darkness={0.6} />
-          <Noise opacity={0.015} />
-        </EffectComposer>
-      </Suspense>
+      <EffectComposer enableNormalPass={false}>
+        <Bloom 
+          luminanceThreshold={0.92} 
+          mipmapBlur 
+          intensity={0.45} 
+          radius={0.25}
+        />
+        <Vignette darkness={0.65} />
+        <Noise opacity={0.012} />
+      </EffectComposer>
     </>
   );
 };

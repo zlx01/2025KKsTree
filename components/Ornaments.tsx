@@ -11,10 +11,10 @@ interface OrnamentsProps {
 }
 
 const LUXURY_PALETTE = [
-  '#FFD700', // Rich Gold
-  '#C00000', // Deep High-gloss Red
-  '#FFFFFF', // Pure Pearl White / Silver
-  '#004d26', // Deep Emerald Green
+  '#D4AF37', // Antique Gold
+  '#F7E7CE', // Champagne
+  '#046307', // Emerald Green
+  '#8B0000', // Deep Ruby Red
 ];
 
 export const Ornaments: React.FC<OrnamentsProps> = ({ treeState, type, count }) => {
@@ -27,26 +27,27 @@ export const Ornaments: React.FC<OrnamentsProps> = ({ treeState, type, count }) 
       const tPos = getTreePoint(12, 4.1, -4);
       const cPos = getRandomSpherePoint(20);
       
-      const colorHex = type === 'light' ? '#FFCC33' : LUXURY_PALETTE[Math.floor(Math.random() * LUXURY_PALETTE.length)];
+      const colorHex = type === 'light' ? '#FFD27F' : LUXURY_PALETTE[Math.floor(Math.random() * LUXURY_PALETTE.length)];
       
-      // Increased base scale slightly and balanced random variance
-      let baseScale = 0.22; // Increased from 0.18
-      let randomFactor = 0.3; // Increased from 0.25
+      // Adjusted scales: slightly smaller and more varied
+      let baseScale = 0.16; 
+      let randomFactor = 0.22;
 
       if (type === 'light') {
-        baseScale = 0.07;
-        randomFactor = 0.05;
+        baseScale = 0.05;
+        randomFactor = 0.04;
       } else if (type === 'box') {
-        baseScale = 0.2;
-        randomFactor = 0.35;
+        // Cubes are smaller and more delicate
+        baseScale = 0.12;
+        randomFactor = 0.18;
       }
       
       return {
         chaosPos: cPos,
         targetPos: tPos,
         color: new THREE.Color(colorHex),
-        // Use a more organic distribution for "large and small"
-        scale: baseScale + (Math.random() > 0.8 ? Math.random() * randomFactor : Math.random() * randomFactor * 0.4),
+        // Create an organic "large and small" distribution
+        scale: baseScale + (Math.random() > 0.85 ? Math.random() * randomFactor * 1.2 : Math.random() * randomFactor * 0.5),
         speed: Math.random() * 0.5 + weight,
         currentPos: cPos.clone(),
         currentRot: new THREE.Euler(Math.random() * Math.PI, Math.random() * Math.PI, 0)
@@ -89,9 +90,9 @@ export const Ornaments: React.FC<OrnamentsProps> = ({ treeState, type, count }) 
     <instancedMesh ref={meshRef} args={[undefined, undefined, count]} castShadow>
       {type === 'box' ? <boxGeometry /> : <sphereGeometry args={[1, 32, 32]} />}
       <meshStandardMaterial 
-        metalness={1.0} 
-        roughness={0.03} 
-        emissiveIntensity={type === 'light' ? 1.5 : 0}
+        metalness={0.9} 
+        roughness={0.08} // Slightly more rough for a silky/premium finish
+        emissiveIntensity={type === 'light' ? 1.1 : 0.02} // Lowered intensity for luxury vibe
         toneMapped={false}
       />
     </instancedMesh>

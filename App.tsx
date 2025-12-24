@@ -22,7 +22,6 @@ function App() {
 
   const handleGestureUpdate = useCallback((newState: HandGestureState) => {
     setGestureState(prev => {
-      // If hand is detected, use it. Otherwise allow mouse to stay at its last pos.
       if (newState.position.x === 0 && newState.position.y === 0 && !newState.isOpen && mouseActive) {
         return prev;
       }
@@ -33,7 +32,6 @@ function App() {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMouseActive(true);
-      // Map to -1 to 1
       const x = (e.clientX / window.innerWidth - 0.5) * 2;
       const y = (e.clientY / window.innerHeight - 0.5) * 2;
       
@@ -69,7 +67,6 @@ function App() {
     <div className="w-full h-screen bg-[#000d05] relative overflow-hidden select-none">
       
       <Suspense fallback={<LoadingFallback />}>
-        {/* 3D Scene Layer */}
         <div className="absolute inset-0 z-0">
           <Canvas 
             dpr={[1, 2]} 
@@ -82,26 +79,26 @@ function App() {
         </div>
       </Suspense>
 
-      {/* Interaction Layer & Camera Feed */}
       <HandController onUpdate={handleGestureUpdate} />
 
       {/* UI Overlay */}
-      <div className="absolute top-0 left-0 w-full p-10 pointer-events-none z-20">
+      <div className="absolute top-0 left-0 w-full p-10 md:p-14 pointer-events-none z-20">
         <div className="flex justify-between items-start">
-          <div className="mt-2 ml-4 flex flex-col items-start">
-            <h1 className="font-['Pinyon_Script'] text-6xl md:text-7xl text-[#FFD700] text-glow-gold tracking-widest leading-none">
+          <div className="mt-2 ml-4 flex flex-col items-start max-w-2xl">
+            <h1 className="font-['Pinyon_Script'] text-6xl md:text-7xl text-[#FFD700] text-glow-gold leading-tight drop-shadow-2xl">
               Merry Christmas
             </h1>
-            <p className="font-['Cinzel'] text-[#D4AF37] tracking-[0.3em] text-xs mt-4 opacity-70 ml-2">
-              EXCLUSIVELY CRAFTED BY KK
+            <div className="h-[1px] w-48 bg-gradient-to-r from-[#D4AF37] to-transparent mt-2 mb-2"></div>
+            <p className="font-['Cinzel'] text-[#D4AF37] tracking-[0.4em] text-[10px] md:text-xs opacity-80">
+              EXCLUSIVELY CREATED BY KK
             </p>
           </div>
           
           <div className="hidden md:block text-right">
-            <div className="border border-[#D4AF37]/50 p-6 bg-black/60 backdrop-blur-md rounded-sm">
-              <p className="text-[#D4AF37] font-[Cinzel] text-[10px] tracking-widest mb-1 opacity-60">SYSTEM STATUS</p>
-              <p className={`text-3xl font-bold tracking-tighter transition-all duration-500 ${treeState === TreeState.CHAOS ? 'text-red-500 text-glow-gold' : 'text-emerald-400'}`}>
-                {treeState === TreeState.CHAOS ? 'UNLEASHED' : 'FORMED'}
+            <div className="border border-[#D4AF37]/40 p-6 bg-black/40 backdrop-blur-xl rounded-sm shadow-2xl">
+              <p className="text-[#D4AF37] font-[Cinzel] text-[9px] tracking-[0.3em] mb-1 opacity-50">STASIS CORE</p>
+              <p className={`text-3xl font-bold tracking-tighter transition-all duration-700 font-['Cinzel'] ${treeState === TreeState.CHAOS ? 'text-red-500 text-glow-gold translate-x-1' : 'text-emerald-400'}`}>
+                {treeState === TreeState.CHAOS ? 'UNLEASHED' : 'STABILIZED'}
               </p>
             </div>
           </div>
@@ -109,28 +106,28 @@ function App() {
       </div>
 
       {/* Control Help Tips */}
-      <div className="absolute top-1/2 left-10 transform -translate-y-1/2 pointer-events-none hidden xl:block">
-        <div className="flex flex-col gap-8">
-          <div className="flex items-center gap-5 opacity-40 hover:opacity-100 transition-opacity">
-            <div className="text-4xl text-[#D4AF37]">✋</div>
-            <div>
-              <p className="text-[#D4AF37] font-[Cinzel] font-bold text-xs tracking-widest">HAND GESTURE</p>
-              <p className="text-white/50 text-[10px] font-serif italic uppercase tracking-tighter">Open: Chaos | Move: View</p>
+      <div className="absolute bottom-20 left-10 pointer-events-none hidden xl:block">
+        <div className="flex flex-col gap-6">
+          <div className="flex items-center gap-4 group">
+            <div className="w-10 h-10 flex items-center justify-center rounded-full border border-[#D4AF37]/30 text-2xl group-hover:bg-[#D4AF37]/10 transition-colors">✋</div>
+            <div className="translate-y-1">
+              <p className="text-[#D4AF37] font-[Cinzel] font-bold text-[10px] tracking-[0.2em]">VISION CONTROL</p>
+              <p className="text-white/40 text-[9px] font-serif italic uppercase tracking-widest">Gesture: Open to Unleash</p>
             </div>
           </div>
-          <div className="flex items-center gap-5 opacity-40 hover:opacity-100 transition-opacity">
-            <div className="text-4xl text-[#D4AF37]">🖱️</div>
-            <div>
-              <p className="text-[#D4AF37] font-[Cinzel] font-bold text-xs tracking-widest">MOUSE CONTROL</p>
-              <p className="text-white/50 text-[10px] font-serif italic uppercase tracking-tighter">Click: Chaos | Wheel: Zoom</p>
+          <div className="flex items-center gap-4 group">
+            <div className="w-10 h-10 flex items-center justify-center rounded-full border border-[#D4AF37]/30 text-2xl group-hover:bg-[#D4AF37]/10 transition-colors">🖱️</div>
+            <div className="translate-y-1">
+              <p className="text-[#D4AF37] font-[Cinzel] font-bold text-[10px] tracking-[0.2em]">PRECISION INPUT</p>
+              <p className="text-white/40 text-[9px] font-serif italic uppercase tracking-widest">Click to Chaos | Scroll to Zoom</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Cinematic Frame */}
-      <div className="absolute inset-0 border-[20px] border-[#011a0e] pointer-events-none z-30 opacity-90"></div>
-      <div className="absolute inset-5 border border-[#D4AF37]/20 pointer-events-none z-30"></div>
+      <div className="absolute inset-0 border-[24px] border-[#011a0e] pointer-events-none z-30 opacity-95"></div>
+      <div className="absolute inset-6 border border-[#D4AF37]/15 pointer-events-none z-30"></div>
 
     </div>
   );
