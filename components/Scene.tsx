@@ -43,9 +43,7 @@ export const Scene: React.FC<SceneProps> = ({ treeState, gestureState, zoom }) =
       <PerspectiveCamera makeDefault position={[0, 4, 30]} fov={45} />
       <CameraRig gestureState={gestureState} zoom={zoom} />
       
-      <Environment preset="studio" background={false} />
-      
-      <ambientLight intensity={0.15} color="#ffffff" />
+      <ambientLight intensity={0.2} color="#ffffff" />
       <spotLight 
         position={[20, 30, 20]} 
         angle={0.3} 

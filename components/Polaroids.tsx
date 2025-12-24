@@ -20,18 +20,16 @@ const IMAGE_URLS = [
 ];
 
 export const Polaroids: React.FC<PolaroidsProps> = ({ treeState }) => {
-  let textures: THREE.Texture[] = [];
-  try {
-    const loaded = useTexture(IMAGE_URLS);
-    textures = Array.isArray(loaded) ? loaded : [loaded];
-  } catch (e) {
-    console.warn("Polaroid textures failed to load", e);
-  }
-  
   const groupRef = useRef<THREE.Group>(null);
+  
+  // Load textures - drei will handle loading states
+  const loadedTextures = useTexture(IMAGE_URLS);
+  const textures = useMemo(() => {
+    return Array.isArray(loadedTextures) ? loadedTextures : (loadedTextures ? [loadedTextures] : []);
+  }, [loadedTextures]);
 
   const items = useMemo(() => {
-    if (!textures.length) return [];
+    if (!textures || textures.length === 0) return [];
     
     return textures.map((tex, i) => {
       const chaos = getRandomSpherePoint(12);
