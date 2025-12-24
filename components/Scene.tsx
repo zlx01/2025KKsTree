@@ -7,6 +7,7 @@ import { Ornaments } from './Ornaments';
 import { Polaroids } from './Polaroids';
 import { Star } from './Star';
 import { Snow } from './Snow';
+import { DecorativeSpiral } from './DecorativeSpiral';
 import { TreeState, HandGestureState } from '../types';
 import * as THREE from 'three';
 
@@ -45,28 +46,31 @@ export const Scene: React.FC<SceneProps> = ({ treeState, gestureState, zoom }) =
       
       <Environment preset="studio" background={false} />
       
-      <ambientLight intensity={0.15} color="#ffffff" />
+      <ambientLight intensity={0.12} color="#ffffff" />
       <spotLight 
         position={[20, 30, 20]} 
         angle={0.3} 
         penumbra={1} 
-        intensity={2.5} 
+        intensity={2.2} 
         color="#fffaf0" 
         castShadow 
       />
       
-      <pointLight position={[-15, 10, -15]} intensity={1.5} color="#FFD700" />
-      <pointLight position={[15, 5, -15]} intensity={1} color="#ffffff" />
+      <pointLight position={[-15, 10, -15]} intensity={1.2} color="#FFD700" />
+      <pointLight position={[15, 5, -15]} intensity={0.8} color="#ffffff" />
 
       <Snow />
 
       <group position={[0, -2, 0]}>
         <Foliage treeState={treeState} />
         
-        {/* Adjusted counts for balanced density with slightly larger ornaments */}
-        <Ornaments treeState={treeState} type="box" count={150} />
-        <Ornaments treeState={treeState} type="ball" count={220} />
-        <Ornaments treeState={treeState} type="light" count={500} />
+        {/* Significantly reduced counts for a sparse, elegant look */}
+        <Ornaments treeState={treeState} type="box" count={70} />
+        <Ornaments treeState={treeState} type="ball" count={150} />
+        <Ornaments treeState={treeState} type="light" count={280} />
+        
+        {/* Decorative Spiral Line - Kept prominent */}
+        <DecorativeSpiral treeState={treeState} count={500} />
         
         <Star treeState={treeState} />
 
@@ -77,13 +81,13 @@ export const Scene: React.FC<SceneProps> = ({ treeState, gestureState, zoom }) =
 
       <EffectComposer enableNormalPass={false}>
         <Bloom 
-          luminanceThreshold={0.9} 
+          luminanceThreshold={0.92} 
           mipmapBlur 
-          intensity={0.6} 
+          intensity={0.45} 
           radius={0.25}
         />
-        <Vignette darkness={0.6} />
-        <Noise opacity={0.015} />
+        <Vignette darkness={0.65} />
+        <Noise opacity={0.012} />
       </EffectComposer>
     </>
   );
