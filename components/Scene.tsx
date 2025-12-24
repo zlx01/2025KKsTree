@@ -75,16 +75,18 @@ export const Scene: React.FC<SceneProps> = ({ treeState, gestureState, zoom }) =
         </Suspense>
       </group>
 
-      <EffectComposer enableNormalPass={false}>
-        <Bloom 
-          luminanceThreshold={0.9} 
-          mipmapBlur 
-          intensity={0.6} 
-          radius={0.25}
-        />
-        <Vignette darkness={0.6} />
-        <Noise opacity={0.015} />
-      </EffectComposer>
+      <Suspense fallback={null}>
+        <EffectComposer enableNormalPass={false} multisampling={0}>
+          <Bloom 
+            luminanceThreshold={0.9} 
+            mipmapBlur 
+            intensity={0.6} 
+            radius={0.25}
+          />
+          <Vignette darkness={0.6} />
+          <Noise opacity={0.015} />
+        </EffectComposer>
+      </Suspense>
     </>
   );
 };
